@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Precios</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <style>
+    body {
+      position: relative;
+      background-color: #cecece97;
+    }
+
+    nav {
+      padding: 0 !important;
+      background-color: #fff;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-top: 1px solid #580b0b;
+      border-bottom: 1px solid #580b0b;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+
+    hr {
+      height: 5px;
+      background-color: #000;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50px;
+      background-color: #000;
+      width: 100%;
+      height: 100px;
+    }
+
+    footer span {
+      color: #fff;
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
+
+    tr:hover {
+      background-color: #875959;
+    }
+
+    .faltante td {
+      background-color: rgba(255, 0, 0, 0.541);
+    }
+
+    #productos {
+      width: 75%;
+      background-color: #fff;
+      border: 0px solid;
+      position: absolute;
+      z-index: 0;
+    }
+
+    .inicio {
+      margin-right: auto;
+    }
+
+    .inicio img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .faltantes {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(51, 0, 255, 0.801);
+      height: 90px;
+      border-radius: 50%;
+      width: 100px;
+    }
+
+    .faltantes span {
+      text-decoration: none;
+      color: white;
+      font-size: 17px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .notificacion {
+      position: absolute;
+      background-color: rgb(255, 0, 0);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      left: 0;
+      top: 0;
+    }
+
+    .busqueda,
+    .agregar {
+      padding: 80px 0px;
+      background-color: #2c3357;
+    }
+
+    .agregar div {
+      margin-left: 176px;
+    }
+
+    .agregar input {
+      margin-left: 50px;
+      padding: 15px;
+      width: 60%;
+    }
+
+    .busqueda input {
+      padding: 15px;
+    }
+
+    .nuevo {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 35px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .nuevo:hover {
+      background-color: #45a049;
+    }
+
+    .precios {
+      background-color: #ff9800;
+      color: #fff;
+      padding: 10px 35px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .precios:hover {
+      background-color: #f57c00;
+    }
+
+    .contenedorfiltro {
+      display: flex;
+      justify-content: center;
+    }
+
+    .item {
+      cursor: pointer;
+      padding: 10px 20px;
+      border-bottom: 1px solid #3454;
+    }
+
+    .encabezado tr th {
+      border: 2px solid #000;
+      background-color: #a771be;
+    }
+
+    .productos tr td {
+      border: 2px solid #000;
+      max-width: 150px;
+    }
+
+    .quitar {
+      border: none;
+      width: 60px;
+    }
+
+    .quitar img {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+    }
+
+    .columnas {
+      display: inline-block;
+    }
+
+    .modal-header h5 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .custom-form input {
+      background-color: #ffe5bf49;
+      font-weight: bold;
+    }
+
+    .precio {
+      margin-top: 5px;
+      font-size: 25px;
+    }
+
+    .importe,
+    .porcentaje {
+      display: flex;
+      align-items: center;
+    }
+
+    .importe label,
+    .porcentaje label {
+      font-size: large;
+      font-weight: bold;
+    }
+
+    .importe input,
+    .porcentaje label {
+      margin-left: 10px;
+    }
+
+    .second-hr {
+      width: 25%;
+      height: 2px;
+      margin: 10px 10px 10px 0px;
+    }
+
+    .O {
+      display: flex;
+    }
+
+    .O span {
+      margin-right: 10px;
+      color: #bebebe;
+    }
+
+    .valorfinal {
+      background-color: #abbffa;
+      border: 1px solid #00000062;
+    }
+
+    .importefinal h3,
+    .aplicarprecios h3 {
+      font-family: "Tahoma", Geneva, Verdana, sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .importefinal label,
+    .ventafinal label {
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+      font-size: 55px;
+    }
+
+    .importefinal input {
+      background-color: #abbffa;
+      border: none;
+      color: #000;
+      font-size: 55px;
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+    }
+
+    .aplicarprecios h3 {
+      font-family: "Tahoma", Geneva, Verdana, sans-serif;
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .aplicarprecios {
+      display: grid;
+      place-items: center;
+      margin: 70px 30px;
+      padding: 30px;
+      background-color: #fff;
+      border: 2px solid #000000dc;
+      border-radius: 4px;
+    }
+
+    .aplicarprecios input {
+      background-color: #ffe5bf49;
+      font-weight: bold;
+    }
+
+    .aplicarprecios button {
+      border: none;
+      padding: 8px 15px;
+      margin-left: 20px;
+      background-color: #ffcc00;
+    }
+
+    .barraaplicar {
+      margin: 10px;
+      margin-top: 20px;
+      font-size: x-large;
+    }
+
+    .barraaplicar hr {
+      color: #000;
+      width: 50%;
+      height: 5px;
+      margin: 15px 10px 0px 10px;
+    }
+
+    .importevarios label {
+      font-size: 30px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .venderproducto label {
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+
+    .labelvender:first-child {
+      margin-top: 3px;
+    }
+
+    .labelvender:nth-child(2) {
+      margin-top: 24px;
+    }
+
+    .labelvender:nth-child(3) {
+      margin-top: 20px;
+    }
+
+    .inputvender {
+      margin-left: 20px;
+    }
+
+    .ventafinal {
+      background-color: #00ff2fad;
+    }
+
+    .ventafinal input {
+      background-color: #00ff2fad;
+      border: none;
+      color: #000;
+      font-size: 55px;
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+    }
+
+    .ventafinal label {
+      background-color: #00ff2fad;
+    }
+  </style>
+  <body>
+    <!--Barra de navegación-->
+
+    <nav class="navbar">
+      <div class="container-fluid justify-content-end">
+        <a th:href="@{/}" class="inicio"
+          ><img
+            src="https://img.freepik.com/vector-premium/fondo-lapices-colores_3442-371.jpg?w=1380"
+        /></a>
+        <a class="faltantes" th:href="@{/faltantes}">
+          <span>FALTANTES</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Agregar Producto -->
+
+    <div class="d-flex justify-content-left agregar">
+      <div class="d-flex w-75">
+        <input
+          id="input"
+          class="form-control input"
+          type="search"
+          placeholder="Ingrese Producto"
+          aria-label="Search"
+        />
+      </div>
+    </div>
+    <div class="contenedorfiltro">
+      <div id="productos"></div>
+    </div>
+
+    <form th:action="@{/aplicar}" method="POST">
+      <!--Tabla de los productos-->
+      <div class="d-flex justify-content-center mt-5">
+        <div class="w-50">
+          <div class="container">
+            <table class="table table">
+              <thead class="encabezado">
+                <tr>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Stock</th>
+                  <th scope="col">Precio</th>
+                </tr>
+              </thead>
+              <tbody id="seleccionados" class="productos"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--Aplicar porcentaje-->
+
+        <div class="container w-25 aplicarprecios">
+          <div class="mt-3 mb-3">
+            <h3>Aplicar Porcentaje</h3>
+          </div>
+          <div class="d-flex">
+            <div class="d-flex">
+              <div class="d-flex porcentaje">
+                <input
+                  id="porcentajeaaplicar"
+                  type="number"
+                  value="0"
+                  class="form-control"
+                  name="porcentaje"
+                />
+                <label for="" class="f-bold">%</label>
+              </div>
+              <button type="submit">Aplicar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <footer>
+      <span>La Magia de los Utiles - Libreria</span>
+    </footer>
+    <script th:inline="javascript">
+      // Obtiene los datos del modelo y los convierte a JSON
+      var todosProductos = /*[[${productos}]]*/ [];
+
+      const input = document.getElementById("input");
+      const productos = document.getElementById("productos");
+      const seleccionados = document.getElementById("seleccionados");
+      var productosSeleccionados = [];
+
+      // Tomar valor de la barra de busqueda
+      input.addEventListener("input", () => {
+        const texto = input.value.toLowerCase();
+        const productosFiltrados = todosProductos.filter((producto) =>
+          producto.nombre.toLowerCase().includes(texto)
+        );
+        if (texto != "") {
+          displaySearchResults(productosFiltrados);
+        } else {
+          productos.innerHTML = "";
+          productos.setAttribute("style", "border: 0px transparent;");
+        }
+      });
+
+      // Mostrar resultados de la barra de busqueda
+      function displaySearchResults(resultados) {
+        productos.innerHTML = "";
+        productos.setAttribute(
+          "style",
+          "border: 2px solid; margin-top: -80px; margin-left: -28px;"
+        );
+        resultados.forEach((producto) => {
+          const resultado = document.createElement("div");
+          resultado.classList.add("item");
+          resultado.textContent = producto.nombre;
+          resultado.addEventListener("click", () =>
+            addSelectedProduct(producto)
+          );
+          productos.appendChild(resultado);
+        });
+      }
+
+      // Agregar a la tabla de productos a aplicar porcentaje
+      function addSelectedProduct(producto) {
+        const nuevaFila = document.createElement("tr");
+        nuevaFila.innerHTML = `
+        <input hidden name="id" value=${producto.id}>
+        <td>${producto.nombre}</td>
+        <td>${producto.stock}</td>
+        <td class="valorprecio" value=${producto.precio} name="precio">$ ${producto.precio}</td>
+        <div hidden class="valorinicial" value=${producto.precio}></div>
+        <td class="quitar"><img class='quitarproducto' src="https://c7.alamy.com/compes/w1jh6r/ilustracion-vectorial-diseno-plano-cancelar-eliminar-quitar-icono-w1jh6r.jpg"</td>
+    `;
+        seleccionados.appendChild(nuevaFila);
+        productos.innerHTML = "";
+        productos.setAttribute("style", "border: 0px transparent;");
+      }
+
+      // Quitar producto de la tabla de productos a aplicar porcentaje
+      seleccionados.addEventListener("click", () => {
+        if (event.target && event.target.classList.contains("quitarproducto")) {
+          event.target.closest("tr").remove();
+        }
+      });
+
+      /*---------- MOSTRAR VALORES A APLICAR ---------------*/
+    
+      let porcentajeAAplicar = document.getElementById("porcentajeaaplicar");
+
+      let porcentajeInicial;
+
+      porcentajeAAplicar.addEventListener("input", () => {
+        let productosAAplicar = document.getElementsByClassName("valorprecio");
+
+        const valoresIniciales = document.getElementsByClassName("valorinicial");
+
+        let porcentaje = parseInt(porcentajeAAplicar.value);
+
+        if (porcentajeAAplicar.value == "0" || porcentajeAAplicar.value == "") {
+          for (let i = 0; i < productosAAplicar.length; i++) {
+            productosAAplicar[i].value = valoresIniciales[i].getAttribute("value");
+            productosAAplicar[i].textContent =
+              "$ " + productosAAplicar[i].value;
+          }
+        } else {
+
+          porcentajeInicial = parseInt(porcentajeAAplicar.value);
+
+          porcentajeAAplicar.value = porcentajeInicial / 100 + 1;
+
+          for (let i = 0; i < productosAAplicar.length; i++) {
+            var valorAplicado = parseInt(Math.round((productosAAplicar[i].getAttribute("value") * porcentajeAAplicar.value) / 10) * 10);
+            productosAAplicar[i].value = valorAplicado;
+            productosAAplicar[i].textContent =
+              "$ " + productosAAplicar[i].value;
+          }
+
+          porcentajeAAplicar.value = porcentajeInicial;
+        }
+      });
+    </script>
+  </body>
+</html>

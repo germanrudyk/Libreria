@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <style>
+    body {
+      position: relative;
+      background-color: #cecece97;
+    }
+
+    nav {
+      padding: 0 !important;
+      background-color: #fff;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-top: 1px solid #580b0b;
+      border-bottom: 1px solid #580b0b;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+
+    hr {
+      height: 5px;
+      background-color: #000;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50px;
+      background-color: #000;
+      width: 100%;
+      height: 100px;
+    }
+
+    footer span {
+      color: #fff;
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
+
+    tr:hover {
+      background-color: #875959;
+    }
+
+    .correcto {
+      cursor: default;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      left: 30%;
+      top: 100px;
+      width: auto;
+      padding: 60px 20px;
+      height: 50px;
+      background-color: #33c533dc;
+      border: 1px solid #fff;
+      color: #fff;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .error {
+      cursor: default;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      left: 28%;
+      top: 400px;
+      width: auto;
+      padding: 60px 20px;
+      height: 50px;
+      background-color: #c11414;
+      border: 1px solid #f93636;
+      color: #fff;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .faltante td {
+      background-color: rgba(255, 0, 0, 0.541);
+    }
+
+    #productos {
+      width: 75%;
+      background-color: #fff;
+      border: 0px solid;
+      position: absolute;
+      z-index: 0;
+    }
+
+    .inicio {
+      margin-right: auto;
+    }
+
+    .inicio img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .faltantes {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(51, 0, 255, 0.801);
+      height: 90px;
+      border-radius: 50%;
+      width: 100px;
+    }
+
+    .faltantes span {
+      text-decoration: none;
+      color: white;
+      font-size: 17px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .notificacion {
+      position: absolute;
+      background-color: rgb(255, 0, 0);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      left: 0;
+      top: 0;
+    }
+
+    .busqueda,
+    .agregar {
+      padding: 80px 0px;
+      background-color: #2c3357;
+    }
+
+    .agregar div {
+      margin-left: 176px;
+    }
+
+    .agregar input {
+      width: 60%;
+    }
+
+    .agregarproducto {
+      padding: 15px;
+      margin-left: 25px;
+      background-color: rgb(0, 208, 255);
+      font-family: sans-serif;
+      font-weight: bold;
+      border-radius: 0%;
+    }
+
+    .busqueda input {
+      padding: 15px;
+    }
+
+    .nuevo {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 35px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .nuevo:hover {
+      background-color: #45a049;
+    }
+
+    .precios {
+      background-color: #ff9800;
+      color: #fff;
+      padding: 10px 35px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .precios:hover {
+      background-color: #f57c00;
+    }
+
+    .contenedorfiltro {
+      display: flex;
+      justify-content: center;
+    }
+
+    .item {
+      cursor: pointer;
+      padding: 10px 20px;
+      border-bottom: 1px solid #3454;
+    }
+
+    .encabezado tr th {
+      border: 2px solid #000;
+      background-color: #a771be;
+    }
+
+    .productos tr td {
+      border: 2px solid #000;
+      max-width: 150px;
+      padding: 14px 10px;
+    }
+
+    .quitar {
+      border: none;
+      width: 60px;
+    }
+
+    .quitar img {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+    }
+
+    .columnas {
+      display: inline-block;
+    }
+
+    .modal-header h5 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .custom-form input {
+      background-color: #ffe5bf49;
+      font-weight: bold;
+    }
+
+    .precio {
+      margin-top: 5px;
+      font-size: 25px;
+    }
+
+    .importe,
+    .porcentaje {
+      display: flex;
+      align-items: center;
+    }
+
+    .importe label,
+    .porcentaje label {
+      font-size: large;
+      font-weight: bold;
+    }
+
+    .importe input,
+    .porcentaje label {
+      margin-left: 10px;
+    }
+
+    .second-hr {
+      width: 25%;
+      height: 2px;
+      margin: 10px 10px 10px 0px;
+    }
+
+    .O {
+      display: flex;
+    }
+
+    .O span {
+      margin-right: 10px;
+      color: #bebebe;
+    }
+
+    .valorfinal {
+      background-color: #abbffa;
+      border: 1px solid #00000062;
+    }
+
+    .importefinal h3,
+    .aplicarprecios h3 {
+      font-family: "Tahoma", Geneva, Verdana, sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .importefinal label,
+    .ventafinal label {
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+      font-size: 55px;
+    }
+
+    .importefinal input {
+      background-color: #abbffa;
+      border: none;
+      color: #000;
+      font-size: 55px;
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+    }
+
+    .aplicarprecios h3 {
+      font-family: "Tahoma", Geneva, Verdana, sans-serif;
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .aplicarprecios {
+      display: grid;
+      place-items: center;
+      margin: 70px 30px;
+      padding: 30px;
+      background-color: #fff;
+      border: 2px solid #000000dc;
+      border-radius: 4px;
+    }
+
+    .aplicarprecios input {
+      background-color: #ffe5bf49;
+      font-weight: bold;
+    }
+
+    .aplicarprecios button {
+      border: none;
+      padding: 8px 15px;
+      margin-left: 20px;
+      background-color: #ffcc00;
+    }
+
+    .barraaplicar {
+      margin: 10px;
+      margin-top: 20px;
+      font-size: x-large;
+    }
+
+    .barraaplicar hr {
+      color: #000;
+      width: 50%;
+      height: 5px;
+      margin: 15px 10px 0px 10px;
+    }
+
+    .importevarios label {
+      font-size: 30px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .venderproducto label {
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+
+    .labelvender:first-child {
+      margin-top: 3px;
+    }
+
+    .labelvender:nth-child(2) {
+      margin-top: 24px;
+    }
+
+    .labelvender:nth-child(3) {
+      margin-top: 20px;
+    }
+
+    .inputvender {
+      margin-left: 20px;
+    }
+
+    .ventafinal {
+      background-color: #00ff2fad;
+    }
+
+    .ventafinal input {
+      background-color: #00ff2fad;
+      border: none;
+      color: #000;
+      font-size: 55px;
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+    }
+
+    .ventafinal label {
+      background-color: #00ff2fad;
+    }
+  </style>
+  <body>
+    <!----  Notificaciones de exito o error -->
+
+    <div th:if="${exito != null}"class="correcto">
+      <h1 th:text="${exito}"></h1>
+    </div>
+    <div th:if="${error != null}" class="error">
+      <h1 th:text="${error}"></h1>
+    </div>
+
+    <!--Notificacion de faltantes-->
+    <div th:if="!${productosANotificar.isEmpty()}">
+      <button
+        hidden
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#registroModalFaltantes"
+      >
+        Abrir Modal
+      </button>
+      <div
+        class="modal fade w-100"
+        id="registroModalFaltantes"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="registroModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="registroModal">NUEVOS FALTANTES</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="container">
+                <div
+                  th:each="producto : ${productosANotificar}"
+                  class="mb-3 fw-bold"
+                >
+                  <span th:text="${producto.nombre}"></span>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Barra de navegación-->
+
+    <nav class="navbar">
+      <div class="container-fluid justify-content-end">
+        <a th:href="@{/}" class="inicio"
+          ><img
+            src="https://img.freepik.com/vector-premium/fondo-lapices-colores_3442-371.jpg?w=1380"
+        /></a>
+        <a class="faltantes" th:href="@{/faltantes}">
+          <div
+            th:if="!${productosANotificar.isEmpty()}"
+            class="notificacion"
+          ></div>
+          <span>FALTANTES</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Cuadro de busqueda -->
+
+    <div class="d-flex justify-content-center busqueda">
+      <input
+        id="input"
+        class="form-control input w-50"
+        type="search"
+        placeholder="Ingrese Producto"
+        aria-label="Search"
+      />
+    </div>
+
+    <!--Botones de Nuevo y Precios-->
+
+    <div class="mt-5 mb-4">
+      <div class="botones container d-flex justify-content-evenly p-3">
+        <a
+          class="btn nuevo"
+          data-bs-toggle="modal"
+          data-bs-target="#registroModalNuevo"
+          href="#"
+          >Nuevo</a
+        >
+        <!-------------Modal del link "Nuevo"------------->
+        <div
+          class="modal fade w-100"
+          id="registroModalNuevo"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="registroModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="registroModalNuevo">
+                  Nuevo Producto
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <!------------- Formulario en el modal ------------->
+              <div class="modal-body">
+                <div class="container">
+                  <form
+                    th:action="@{/agregar}"
+                    class="custom-form"
+                    method="POST"
+                    enctype="multipart/form-data"
+                  >
+                    <input hidden value="" name="id" />
+                    <div class="mb-3">
+                      <label for="nombre" class="form-label">Producto</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="nombre"
+                        value=""
+                        placeholder="Ingrese nombre de producto"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="nombre" class="form-label">Stock</label>
+                      <input
+                        type="number"
+                        class="form-control w-25"
+                        name="stock"
+                        value=""
+                        required
+                      />
+                    </div>
+
+                    <!--------- Precio ------------->
+
+                    <div class="mb-3">
+                      <label for="" class="form-label precio"> Precio </label>
+                      <input
+                        type="number"
+                        class="form-control w-50"
+                        name="precio"
+                        value=""
+                      />
+                    </div>
+
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Cerrar
+                      </button>
+                      <button type="submit" class="btn btn-success">
+                        Agregar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="btn precios" th:href="@{/precios}">Precios</a>
+      </div>
+    </div>
+
+    <!--Tabla de los productos-->
+
+    <div class="d-flex justify-content-center">
+      <div class="w-75">
+        <div class="container">
+          <table class="table table">
+            <thead class="encabezado">
+              <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="productos">
+              <div th:each="producto : ${productos}">
+                <tr class="fila" th:if="${producto.stock > 0}">
+                  <td>
+                    <a
+                      class=""
+                      data-bs-toggle="modal"
+                      th:data-bs-target="'#registroModal'+${producto.id}"
+                      th:text="${producto.nombre}"
+                      href="#"
+                    ></a>
+                    <!-------------Modal del link "Producto"------------->
+                    <div
+                      class="modal fade w-100"
+                      th:id="'registroModal'+${producto.id}"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="registroModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div
+                        class="modal-dialog modal-dialog-centered"
+                        role="document"
+                      >
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              th:text="${producto.nombre}"
+                            ></h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <!------------- Formulario en el modal ------------->
+                          <div class="modal-body">
+                            <div class="container">
+                              <form
+                                class="custom-form"
+                                th:action="@{/modificar/__${producto.id}__}"
+                                method="POST"
+                                enctype="multipart/form-data"
+                              >
+                                <input
+                                  hidden
+                                  th:value="${producto.id}"
+                                  name="id"
+                                />
+                                <div class="mb-3">
+                                  <label for="nombre" class="form-label"
+                                    >Producto</label
+                                  >
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    th:value="${producto.nombre}"
+                                    name="nombre"
+                                    placeholder="Ingrese nombre de producto"
+                                    required
+                                  />
+                                </div>
+                                <div class="mb-3">
+                                  <label for="nombre" class="form-label"
+                                    >Stock</label
+                                  >
+                                  <input
+                                    type="number"
+                                    class="form-control w-25"
+                                    name="stock"
+                                    th:value="${producto.stock}"
+                                    required
+                                  />
+                                </div>
+                                <hr />
+
+                                <!-- Precio -->
+
+                                <div class="mb-3">
+                                  <label for="" class="form-label precio">
+                                    Precio
+                                  </label>
+                                </div>
+                                <div class="w-100 d-flex">
+                                  <!-- Modificar importe -->
+                                  <div class="w-50">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label w-100">
+                                        Aplicar porcentaje
+                                      </label>
+                                      <div class="d-flex porcentaje">
+                                        <input
+                                          class="precioactual"
+                                          hidden
+                                          th:value="${producto.precio}"
+                                        />
+                                        <input
+                                          name="porcentaje"
+                                          type="number"
+                                          class="% form-control w-50"
+                                          value="0"
+                                          required
+                                        />
+                                        <label for="" class="f-bold">%</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- Importe total -->
+                                  <div
+                                    class="w-50 d-flex justify-content-center align-items-center"
+                                  >
+                                    <div class="mb-3 importefinal">
+                                      <h3 for="" class="w-100">
+                                        Importe Final
+                                      </h3>
+                                      <div
+                                        class="d-flex justify-content-center valorfinal"
+                                      >
+                                        <label for="" class="f-bold">$</label>
+                                        <input
+                                          type="text"
+                                          class="importefinalproducto w-100"
+                                          name="precio"
+                                          th:value="${producto.precio}"
+                                          disabled
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                  >
+                                    Cerrar
+                                  </button>
+                                  <button type="submit" class="btn btn-success">
+                                    Guardar
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td th:text="${producto.stock}"></td>
+                  <td th:text="'$'+${producto.precio}"></td>
+                  <td>
+                    <a
+                      class="btn btn-success"
+                      data-bs-toggle="modal"
+                      th:data-bs-target="'#registroModalVender'+${producto.id}"
+                      href="#"
+                      >Vender</a
+                    >
+                    <!-------------Modal del link "Vender"------------->
+                    <div
+                      class="modal fade w-100"
+                      th:id="'registroModalVender'+${producto.id}"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="registroModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div
+                        class="modal-dialog modal-dialog-centered"
+                        role="document"
+                      >
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              th:id="'registroModalVender'+${producto.id}"
+                              th:text="${producto.nombre}"
+                            ></h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <!------------- Formulario en el modal ------------->
+                          <div class="modal-body">
+                            <div class="container">
+                              <form
+                                class="custom-form"
+                                th:action="@{/vender/__${producto.id}__}"
+                                method="POST"
+                                enctype="multipart/form-data"
+                              >
+                                <input
+                                  hidden
+                                  th:value="${producto.id}"
+                                  name="id"
+                                />
+
+                                <div class="d-flex">
+                                  <!--Etiquetas-->
+
+                                  <div>
+                                    <div class="labelvender">
+                                      <label for="nombre" class="form-label"
+                                        >Cantidad</label
+                                      >
+                                    </div>
+                                    <div class="labelvender">
+                                      <label for="nombre" class="form-label"
+                                        >P. Unitario</label
+                                      >
+                                    </div>
+                                    <div class="labelvender">
+                                      <h3 for="" class="w-100">
+                                        Importe Final
+                                      </h3>
+                                    </div>
+                                  </div>
+
+                                  <!-- Entradas -->
+                                  <div class="inputvender">
+                                    <div class="mb-3">
+                                      <input
+                                        type="number"
+                                        class="cantidad form-control w-50"
+                                        name="stock"
+                                        required
+                                      />
+                                    </div>
+                                    <div class="mb-3">
+                                      <input
+                                        type="number"
+                                        class="preciounitario form-control w-50"
+                                        th:value="${producto.precio}"
+                                        disabled
+                                      />
+                                    </div>
+
+                                    <!-- Importe total -->
+                                    <div
+                                      class="w-75 d-flex justify-content-center align-items-center"
+                                    >
+                                      <div class="mb-3 ventafinal">
+                                        <div
+                                          class="d-flex justify-content-center valorfinal"
+                                        >
+                                          <label for="" class="f-bold">$</label>
+                                          <input
+                                            type="text"
+                                            class="importetotal w-100"
+                                            value=""
+                                            name="precio"
+                                            disabled
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                  >
+                                    Cerrar
+                                  </button>
+                                  <button type="submit" class="btn btn-success">
+                                    Guardar
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr th:if="${producto.stock == 0}" class="fila faltante">
+                  <td>
+                    <a
+                      class=""
+                      data-bs-toggle="modal"
+                      th:data-bs-target="'#registroModal'+${producto.id}"
+                      th:text="${producto.nombre}"
+                      href="#"
+                    ></a>
+                    <!-------------Modal del link "Producto"------------->
+                    <div
+                      class="modal fade w-100"
+                      th:id="'registroModal'+${producto.id}"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="registroModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div
+                        class="modal-dialog modal-dialog-centered"
+                        role="document"
+                      >
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              th:text="${producto.nombre}"
+                            ></h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <!------------- Formulario en el modal ------------->
+                          <div class="modal-body">
+                            <div class="container">
+                              <form
+                                class="custom-form"
+                                th:action="@{/modificar/__${producto.id}__}"
+                                method="POST"
+                                enctype="multipart/form-data"
+                              >
+                                <input
+                                  hidden
+                                  th:value="${producto.id}"
+                                  name="id"
+                                />
+                                <div class="mb-3">
+                                  <label for="nombre" class="form-label"
+                                    >Producto</label
+                                  >
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    th:value="${producto.nombre}"
+                                    name="nombre"
+                                    placeholder="Ingrese nombre de producto"
+                                    required
+                                  />
+                                </div>
+                                <div class="mb-3">
+                                  <label for="nombre" class="form-label"
+                                    >Stock</label
+                                  >
+                                  <input
+                                    type="number"
+                                    class="form-control w-25"
+                                    name="stock"
+                                    th:value="${producto.stock}"
+                                    required
+                                  />
+                                </div>
+                                <hr />
+
+                                <!-- Precio -->
+
+                                <div class="mb-3">
+                                  <label for="" class="form-label precio">
+                                    Precio
+                                  </label>
+                                </div>
+                                <div class="w-100 d-flex">
+                                  <!-- Modificar importe -->
+                                  <div class="w-50">
+                                    <div class="mb-3">
+                                      <label for="" class="form-label w-100">
+                                        Aplicar porcentaje
+                                      </label>
+                                      <div class="d-flex porcentaje">
+                                        <input
+                                          class="precioactual"
+                                          hidden
+                                          th:value="${producto.precio}"
+                                        />
+                                        <input
+                                          name="porcentaje"
+                                          type="number"
+                                          class="% form-control w-50"
+                                          value="0"
+                                          required
+                                        />
+                                        <label for="" class="f-bold">%</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- Importe total -->
+                                  <div
+                                    class="w-50 d-flex justify-content-center align-items-center"
+                                  >
+                                    <div class="mb-3 importefinal">
+                                      <h3 for="" class="w-100">
+                                        Importe Final
+                                      </h3>
+                                      <div
+                                        class="d-flex justify-content-center valorfinal"
+                                      >
+                                        <label for="" class="f-bold">$</label>
+                                        <input
+                                          type="text"
+                                          class="importefinalproducto w-100"
+                                          name="precio"
+                                          th:value="${producto.precio}"
+                                          disabled
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                  >
+                                    Cerrar
+                                  </button>
+                                  <button type="submit" class="btn btn-success">
+                                    Guardar
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td th:text="${producto.stock}"></td>
+                  <td th:text="'$'+${producto.precio}"></td>
+                  <td></td>
+                </tr>
+              </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span>La Magia de los Utiles - Libreria</span>
+    </footer>
+
+    <script>
+      /* -------------- MOSTRAR MODAL DE FALTANTES ----------------*/
+      $(document).ready(function () {
+        $("#registroModalFaltantes").modal("show");
+      });
+
+
+      /* -------------- NOTIFICACIONES DE EXITO O ERROR ---------------*/
+      
+      // Mostrar el mensaje gradualmente
+      function mostrarMensaje(mensaje) {
+        mensaje.style.display = "flex";
+      let opacity = 0;
+      const fadeInInterval = setInterval(function () {
+        if (opacity < 1) {
+          opacity += 0.1;
+          mensaje.style.opacity = opacity;
+        } else {
+          clearInterval(fadeInInterval);
+
+          // Desaparecer el mensaje gradualmente
+          const fadeOutInterval = setInterval(function () {
+            if (opacity > 0) {
+              opacity -= 0.1;
+              mensaje.style.opacity = opacity;
+            } else {
+              mensaje.style.display = "none";
+              clearInterval(fadeOutInterval);
+            }
+          }, 200);
+        }
+      }, 90);
+      }
+
+      if (document.getElementsByClassName("correcto")[0]){
+        let mensaje = document.getElementsByClassName("correcto")[0];
+        mostrarMensaje(mensaje);
+      } else if (document.getElementsByClassName("error")[0]) {
+        let mensaje = document.getElementsByClassName("error")[0];
+        mostrarMensaje(mensaje);
+      }
+    
+      /* --------------FILTRO DE BUSQUEDA -----------------*/
+
+      let buscar = document.getElementById("input");
+
+      buscar.addEventListener("input", function () {
+        var filtro = this.value.toLowerCase(); // Obtener el valor del input en minúsculas
+        var filas = document.getElementsByClassName("fila");
+
+        // Recorrer cada fila de la tabla
+        for (var i = 0; i < filas.length; i++) {
+          var contenidoFila = filas[i].textContent.toLowerCase(); // Obtener el contenido de la fila en minúsculas
+
+          // Comparar el contenido de la fila con el término de búsqueda
+          if (contenidoFila.indexOf(filtro) === -1) {
+            filas[i].style.display = "none"; // Ocultar la fila si no coincide
+          } else {
+            filas[i].style.display = ""; // Mostrar la fila si coincide
+          }
+        }
+      });
+
+      /* ------------ MOSTRAR IMPORTE TOTAL DE VENTA ------------*/
+      let cantidad = document.getElementsByClassName("cantidad");
+      const precioUnitario = document.getElementsByClassName("preciounitario");
+      let importeTotal = document.getElementsByClassName("importetotal");
+
+      for (let i = 0; i < cantidad.length; i++) {
+        cantidad[i].addEventListener("input", () => {
+          importeTotal[i].value = cantidad[i].value * precioUnitario[i].value;
+        });
+      }
+
+      /* ------------- MOSTRAR IMPORTE FINAL DE MODIFICACION DE PRODUCTO ----------- */
+
+      const precioActual = document.getElementsByClassName("precioactual");
+      let porcentaje = document.getElementsByClassName("%");
+      let importeFinal = document.getElementsByClassName(
+        "importefinalproducto"
+      );
+
+      for (let i = 0; i < porcentaje.length; i++) {
+        porcentaje[i].addEventListener("input", () => {
+          let porcentajeAAplicar = porcentaje[i].value;
+
+          if (porcentajeAAplicar.value == "0" || porcentajeAAplicar == "") {
+            importeFinal[i].value = precioActual[i].getAttribute("value");
+          } else {
+            porcentajeAAplicar = parseInt(porcentajeAAplicar) / 100 + 1;
+            importeFinal[i].value = parseInt(
+              Math.round(
+                (precioActual[i].getAttribute("value") * porcentajeAAplicar) /
+                  10
+              ) * 10
+            );
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
